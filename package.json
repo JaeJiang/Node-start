@@ -1,0 +1,33 @@
+{
+  "name": "Node-start",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "start": "nodemon --inspect index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JaeJiang/Node-start.git"
+  },
+  "keywords": [
+    "node",
+    "notebook"
+  ],
+  "author": "josh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JaeJiang/Node-start/issues"
+  },
+  "homepage": "https://github.com/JaeJiang/Node-start#readme",
+  "devDependencies": {
+    "lodash": "^4.17.4",
+    "nodemon": "^1.11.0"
+  },
+  "dependencies": {
+    "axios": "^0.15.3"
+  }
+}
