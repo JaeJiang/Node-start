@@ -1,9 +1,9 @@
-# pure-node-notebook-step
+## Node-start
 
 - 第一课
 > npm、package.json、node_modules及项目架构初始化
 ```bash
-	git clone git@github.com:slashhuang/pure-node-notebook-step.git
+	git clone 
 	npm install 
 	npm start
 ```
