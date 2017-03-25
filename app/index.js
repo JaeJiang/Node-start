@@ -4,6 +4,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const staticServer = require('./static-server');
 
 class App {
 	constructor(){
@@ -17,39 +18,11 @@ class App {
 			//express框架  app.use(static('public))
 			// const staticPrefix = path.resolve(process.cwd(),'public');
 			
-			//得到路径
-			let getPath = (url)=>{
-				return path.resolve(process.cwd(),'public',`.${url}`);
-			}
-			//每个请求逻辑
-			let staticFunc = (url)=>{
-				if (url =='/'){
-					url = '/index.html';
-				}
-				let _path = getPath(url);
-				fs.readFile(_path,(err,data)=>{
-					response.end(data)
-				})
-			};
-			staticFunc(url);
-
-			// if (url == '/css/index.css'){
-			// 	fs.readFile('./public/css/index.css','utf-8',(err,data)=>{
-			// 		response.end(data)
-			// 	})
-			// }
-			// if (url == '/js/index.js'){
-			// 	fs.readFile('./public/js/index.js','utf-8',(err,data)=>{
-			// 		response.end(data)
-			// 	})
-			// }
-			// if (url == '/'){
-			// 	fs.readFile('./public/index.html',(error,data)=>{
-				
-			// 	response.end(data)
-			// })
-			// }
 			
+			//每个请求逻辑
+			let body = staticServer(url);
+			response.end(body)
+
 		}
 	}
 }
