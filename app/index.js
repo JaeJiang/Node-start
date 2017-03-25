@@ -15,14 +15,19 @@ class App {
 		return (request,response)=>{
 			let { url } = request;	//==>let url = request.url
 			//express框架  app.use(static('public))
-			const staticPrefix = path.resolve(process.cwd(),'public');
+			// const staticPrefix = path.resolve(process.cwd(),'public');
+			
+			//得到路径
+			let getPath = (url)=>{
+				return path.resolve(process.cwd(),'public',`.${url}`);
+			}
 			//每个请求逻辑
 			let staticFunc = (url)=>{
 				if (url =='/'){
 					url = '/index.html';
 				}
-				let _path = path.resolve(staticPrefix,`.${url}`)
-				fs.readFile(_path,'utf-8',(err,data)=>{
+				let _path = getPath(url);
+				fs.readFile(_path,(err,data)=>{
 					response.end(data)
 				})
 			};
