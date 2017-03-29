@@ -24,13 +24,16 @@ class App {
 			let body = '';
 			let headers = {};
 			if(url.match('action')){
-				body = JSON.stringify(apiServer(url));
-				headers = {
-					'Content-Type':'application/json'
-				};
-				let finalHeader = Object.assign(headers,{'X-powered-by':'Node.js'})
-				response.writeHead(200,'resolve ok',finalHeader)
-				response.end(body)
+				apiServer(url).then(val=>{
+					body = JSON.stringify(apiServer(url));
+					headers = {
+						'Content-Type':'application/json'
+					};
+					let finalHeader = Object.assign(headers,{'X-powered-by':'Node.js'})
+					response.writeHead(200,'resolve ok',finalHeader)
+					response.end(body)
+				})
+				
 			}else{
 				//每个请求逻辑 根据url进行代码分发
 			staticServer(url).then((body)=>{
