@@ -22,8 +22,11 @@ class App {
 			//所有以action结尾的url，都认为是ajax；
 			if(url.match('action')){
 				let body = apiServer(url);
-				response.writeHead(200,'resolve ok',{'X-powered-by':'Node.js'})
-				response.end(body)
+				response.writeHead(200,'resolve ok',{
+					'X-powered-by':'Node.js',
+					'Content-Type':'application/json'
+				})
+				response.end(JSON.stringify(body))
 			}else{
 				//每个请求逻辑 根据url进行代码分发
 			let body = staticServer(url);

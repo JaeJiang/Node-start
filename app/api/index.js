@@ -3,5 +3,5 @@
 */
 
 module.exports = (url)=>{
-    return 'josh top1';
+    return ['josh','top'];
 }
