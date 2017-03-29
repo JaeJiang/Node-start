@@ -1,14 +1,18 @@
 ## Node-start
 
+### step-1
 
-```bash
-	git clone 
+1.1 项目初始化
+npm、package.json、node_modules及项目架构初始化
+	
+1.2 静态服务器
+http协议、fs、path模块及创建项目静态服务器
+	
+1.3 引入对接前端ajax的api服务体系
+引入Promise/url/querystring架构项目
+引入对接前端ajax的api服务体系
+	
+	git clone https://github.com/JaeJiang/Node-start.git
+	git checkout step-1
 	npm install 
 	npm start
-```
-- 第一课
-> npm、package.json、node_modules及项目架构初始化
-
-- 第二课
-> 创建前端html/css/js资源的返回
->
