@@ -20,20 +20,28 @@ class App {
 			// const staticPrefix = path.resolve(process.cwd(),'public');
 
 			//所有以action结尾的url，都认为是ajax；
+			//返回字符串或者buffer
+			let body = '';
+			let headers = {};
 			if(url.match('action')){
-				let body = apiServer(url);
-				response.writeHead(200,'resolve ok',{
-					'X-powered-by':'Node.js',
+				body = JSON.stringify(apiServer(url));
+				headers = {
 					'Content-Type':'application/json'
-				})
-				response.end(JSON.stringify(body))
+				};
+				let finalHeader = Object.assign(headers,{'X-powered-by':'Node.js'})
+				response.writeHead(200,'resolve ok',finalHeader)
+				response.end(body)
 			}else{
 				//每个请求逻辑 根据url进行代码分发
-			let body = staticServer(url);
-			response.writeHead(200,'resolve ok',{'X-powered-by':'Node.js'})
-			response.end(body)
-
-			}
+			staticServer(url).then((body)=>{
+				let finalHeader = Object.assign(headers,{'X-powered-by':'Node.js'})
+				response.writeHead(200,'resolve ok',finalHeader)
+				response.end(body)
+			 });
+		
+		}
+			
+		
 		}
 	}
 }

@@ -13,17 +13,19 @@ const path = require('path');
 			
 
             let staticFunc = (url)=>{
-				if (url =='/'){
-					url = '/index.html';
-				}
-				let _path = getPath(url);
-                let body = '';
-                try{
-                   body = fs.readFileSync(_path)
-                }catch(error){
-                    body = `oops! NOT FOUND${error.stack}`
-                }
-				return body;
+				
+				return new Promise((resolve,reject)=>{
+                    if (url =='/'){
+                        url = '/index.html';
+                    }
+                    let _path = getPath(url);
+                    let body = fs.readFile(_path,(err,data)=>{
+                            if(err){
+                            reject(`oops! NOT FOUND${err.stack}`)
+                            }
+                            resolve(data)
+                    })
+                })
 			};
 
 module.exports = staticFunc
