@@ -4,47 +4,50 @@
 
 const fs = require('fs');
 const path = require('path');
-const staticServer = require('./static-server');
+const staticServer = require('./staic-server');
 const apiServer = require('./api');
-
+const urlParser = require('./url-parser');
 class App {
 	constructor(){
 
 	}
 	initServer(){
 		//初始化的工作
-		
 		return (request,response)=>{
-			let { url } = request;	//==>解构赋值let url = request.url
-			//express框架  app.use(static('public))
-			// const staticPrefix = path.resolve(process.cwd(),'public');
-
-			//所有以action结尾的url，都认为是ajax；
-			//返回字符串或者buffer
-			let body = '';
-			let headers = {};
-			if(url.match('action')){
-				apiServer(url).then(val=>{
-					body = JSON.stringify(apiServer(url));
-					headers = {
+			let { url,method } = request; //==> 解构赋值 let url = request.url
+			// 所有以action结尾的url，认为它是ajax
+			// DRY
+			//返回的字符串或者buffer
+			request.context = {
+				body:'',
+				query:{},
+				method:'get'
+			};
+			urlParser(request).then(()=>{
+				return apiServer(request)
+			}).then(val=>{
+				if(!val){
+					//Promise
+					return staticServer(request)
+				}else{
+					return val
+				}
+			}).then(val=>{
+				//数组
+				let base ={'X-powered-by':'Node.js'};
+				let body = '';
+				//
+				if(val instanceof Buffer){
+					body = val;
+				}else{
+					body = JSON.stringify(val);
+					let fianlHeader = Object.assign(base,{
 						'Content-Type':'application/json'
-					};
-					let finalHeader = Object.assign(headers,{'X-powered-by':'Node.js'})
-					response.writeHead(200,'resolve ok',finalHeader)
-					response.end(body)
-				})
-				
-			}else{
-				//每个请求逻辑 根据url进行代码分发
-			staticServer(url).then((body)=>{
-				let finalHeader = Object.assign(headers,{'X-powered-by':'Node.js'})
-				response.writeHead(200,'resolve ok',finalHeader)
-				response.end(body)
-			 });
-		
-		}
-			
-		
+					});
+					response.writeHead(200,'resolve ok',fianlHeader)
+				}
+				response.end(body)	
+			})
 		}
 	}
 }
