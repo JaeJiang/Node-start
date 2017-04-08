@@ -3,18 +3,20 @@
  * 处理客户端数据
  */
 
+//处理POST请求
 
  // request: query + body + method
 
-module.exports = (request)=>{
+
+
+module.exports = (ctx)=>{
 	//原型链readable stream eventEmitter
-	let { method,url,context } = request;
+	let { method,url,context } = ctx.req;
+	let { reqCtx } = ctx;
 	method = method.toLowerCase();
 	return Promise.resolve({
 		then:(resolve,reject)=>{
-			context.method = method;
-			//@TODO
-			context.query = {};
+				
 			if(method == 'post'){
 				let data = '';
 		 		//paused flow 
@@ -22,7 +24,7 @@ module.exports = (request)=>{
 		 		request.on('data',(chunk)=>{
 			 		data += chunk;
 			 	}).on('end',()=>{
-			 		context.body = JSON.parse(data);
+			 		reqCtx.body = JSON.parse(data);
 			 		//通知下一个流程
 			 		resolve()
 			 	});

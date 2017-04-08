@@ -18,17 +18,32 @@ class App {
 			// 所有以action结尾的url，认为它是ajax
 			// DRY
 			//返回的字符串或者buffer
+			
 			request.context = {
 				body:'',
 				query:{},
 				method:'get'
 			};
-			urlParser(request).then(()=>{
-				return apiServer(request)
+			let context = {
+				req:request,
+				reqCtx:{
+					body:'',//post请求数据
+					query:{},//处理客户端get请求
+
+				},
+				res:response,
+				resCtx:{
+					headers:{},//response返回保文
+					body:'',//返回前端内容
+				}
+		
+			};
+			urlParser(context).then(()=>{
+				return apiServer(context)
 			}).then(val=>{
 				if(!val){
 					//Promise
-					return staticServer(request)
+					return staticServer(context)
 				}else{
 					return val
 				}
