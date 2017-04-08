@@ -14,9 +14,15 @@ http协议、fs、path模块及创建项目静态服务器
 
 ### step-2
 
-2.1 复习Promise,创建url-parser来处理post请求
+2.1 复习Promise,创建url-parser来处理post请求\
+
+### step-3 
+
+3.1 设计expres和koa的api风格,模拟use callback方法。
+
+3.2 将request和response抽象为一个引用对象。
+
 	
 	git clone https://github.com/JaeJiang/Node-start.git
-	git checkout step-1
 	npm install 
 	npm start
